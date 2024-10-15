@@ -1,1 +1,1 @@
-g++ -mwindows -municode src/main.cpp
+g++ -mwindows -municode src/*.c src/*.cpp -Isrc/include/
