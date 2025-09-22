@@ -1,60 +1,37 @@
-#ifndef UNICODE
-#define UNICODE
-#endif 
+#define GLFW_INCLUDE_NONE
 
-#include <windows.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+int main(void) {
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
+    GLFWwindow* window;
 
-    const wchar_t CLASS_NAME[] = L"Janela de teste";
+    if (!glfwInit())
+        return -1;
 
-    WNDCLASS wc = {};
-
-    wc.lpfnWndProc = WindowProc;
-    wc.hInstance = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-
-    RegisterClass(&wc);
-
-    HWND hwnd = CreateWindowEx(0, CLASS_NAME, L"Janela de teste", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
-
-    if (hwnd == NULL)
+    window = glfwCreateWindow(640, 480, "CPS", NULL, NULL);
+    if (!window)
     {
-        return 0;
+        glfwTerminate();
+        return -1;
     }
 
-    ShowWindow(hwnd, nCmdShow);
+    glfwMakeContextCurrent(window);
 
-    MSG msg = { };
-    while (GetMessage(&msg, NULL, 0, 0) > 0)
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+
+    while (!glfwWindowShouldClose(window))
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+	// glDrawArrays(GL_TRIANGLES, 0, 15);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(window);
+
+        glfwPollEvents();
     }
 
+    glfwTerminate();
     return 0;
-}
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    switch (uMsg)
-    {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
-
-            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
-
-            EndPaint(hwnd, &ps);
-        }
-        return 0;
-
-    }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    
 }
