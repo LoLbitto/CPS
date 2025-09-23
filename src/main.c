@@ -11,8 +11,8 @@ int main(void) {
         return -1;
 
     window = glfwCreateWindow(640, 480, "CPS", NULL, NULL);
-    if (!window)
-    {
+    
+    if (!window) {
         glfwTerminate();
         return -1;
     }
@@ -21,8 +21,7 @@ int main(void) {
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
 	// glDrawArrays(GL_TRIANGLES, 0, 15);
         glClear(GL_COLOR_BUFFER_BIT);
 
