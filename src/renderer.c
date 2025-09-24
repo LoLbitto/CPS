@@ -5,9 +5,19 @@
 #include <renderer.h>
 #include <shaders.h>
 
+/*
 struct Program {
     unsigned int program; // NOTE: idk what i will do with this struct, but i feel like using a different VAO and VBO for each program in the future
 };
+*/
+
+// For now, I really have no ideia how to organize this code, that's the issue with being object-oriented pilled :(
+void start() {
+    unsigned int vao;
+    unsigned int vbo;
+
+    glGen
+}
 
 Program crate_program() {
     unsigned int vertex_shader;
@@ -28,8 +38,8 @@ Program crate_program() {
     glLinkProgram(program);
 
     glUseProgram(program);
+}
 
-    Program sav_program;
-
-    sav_program.program = program;
+void draw (float* vertex, int size) {
+    
 }
