@@ -12,14 +12,8 @@ struct Program {
 */
 
 // For now, I really have no ideia how to organize this code, that's the issue with being object-oriented pilled :(
-void start() {
-    unsigned int vao;
-    unsigned int vbo;
 
-    glGen
-}
-
-Program crate_program() {
+void create_program() {
     unsigned int vertex_shader;
     vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex_shader, 1, &main_vertex, NULL);
@@ -40,6 +34,24 @@ Program crate_program() {
     glUseProgram(program);
 }
 
-void draw (float* vertex, int size) {
-    
+void start() {
+    unsigned int vao;
+    unsigned int vbo;
+
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    create_program();
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+    //glEnableVertexAttribArray(0);
+}
+
+void draw (float* vertices, int size) {
+    glBufferData(GL_ARRAY_BUFFER, size, &vertices, GL_STATIC_DRAW);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }

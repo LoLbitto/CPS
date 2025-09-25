@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <renderer.h>
 
 int main(void) {
 
@@ -21,9 +22,13 @@ int main(void) {
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
+    float vertices[] = {-1.0f, -0.25f, 0.5f, 0.0f, 1.0f, 0.5f, 1.0f, -0.25f, 0.5f};
+
     while (!glfwWindowShouldClose(window)) {
-	// glDrawArrays(GL_TRIANGLES, 0, 15);
-        glClear(GL_COLOR_BUFFER_BIT);
+        start();
+	draw(vertices, 9);
+
+	glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(window);
 
