@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <glad/glad.h>
 
@@ -32,11 +33,25 @@ void create_program() {
     glLinkProgram(program);
 
     glUseProgram(program);
+    
+    int comp_stt;
+    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &comp_stt);
+
+    printf("Comp vert: %i\n", comp_stt);
+
+    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &comp_stt);
+
+    printf("Comp frag: %i\n", comp_stt);
+
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
 }
 
 void start() {
     unsigned int vao;
     unsigned int vbo;
+
+    create_program();
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -44,14 +59,21 @@ void start() {
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    create_program();
+    glVertexAttribPointer(0, 3, GL_FLOAT, 0, 3 * sizeof(float), (void*)0);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-    //glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);
 }
 
-void draw (float* vertices, int size) {
-    glBufferData(GL_ARRAY_BUFFER, size, &vertices, GL_STATIC_DRAW);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+void draw (float vertices[], int size) {
+    /*
+     * int currentVBO;
+     * glGetIntegerv(GL_PROGRAM_BINDING, &currentVBO);
+     *
+     * printf("Current VAO: %d", currentVBO);
+     */
+    
+    glClearColor(0.8f, 0.3f, 0.3f, 1.0f);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glDrawArrays(GL_TRIANGLES, 0, 9);
 }
